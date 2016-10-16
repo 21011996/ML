@@ -14,20 +14,23 @@ public class Main {
 
     public void run() {
         double accuracy = 0;
+        MessagesReader reader = new MessagesReader();
         for (int i = 1; i<=10; i++) {
-            NBC nbc = new NBC().train(new MessagesReader().read("Bayes/pu1/part" + i));
-            int count = 0;
-            int correct = 0;
+            ArrayList<Message> test = reader.read("Bayes/pu1/part" + i);
+            ArrayList<Message> train = new ArrayList<>();
             for (int j = 1; j<=10; j++) {
-                if (i != j) {
-                    ArrayList<Message> toClassify = new MessagesReader().read("Bayes/pu1/part" + j);
-                    ArrayList<MessageType> classified = nbc.classify(toClassify);
-                    for (int k = 0; k<toClassify.size(); k++) {
-                        count++;
-                        if (toClassify.get(k).getType().equals(classified.get(k))) {
-                            correct++;
-                        }
-                    }
+                if (i!=j) {
+                    train.addAll(reader.read("Bayes/pu1/part" + j));
+                }
+            }
+            NBC nbc = new NBC().train(train);
+            ArrayList<MessageType> classified = nbc.classify(test);
+            int correct = 0;
+            int count = 0;
+            for (int j = 0; j<test.size(); j++) {
+                count++;
+                if (test.get(j).getType().equals(classified.get(j))) {
+                    correct++;
                 }
             }
             accuracy += (double) correct / count;
