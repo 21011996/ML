@@ -1,6 +1,4 @@
-package NaiveBayesClassifier;
-
-import NaiveBayesClassifier.message.MessagesReader;
+import message.MessagesReader;
 
 import java.util.Map;
 

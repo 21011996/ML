@@ -1,5 +1,3 @@
-package KNN;
-
 import com.xeiam.xchart.*;
 
 import java.awt.*;

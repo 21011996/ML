@@ -1,4 +1,4 @@
-package NaiveBayesClassifier.message;
+package message;
 
 import java.util.ArrayList;
 

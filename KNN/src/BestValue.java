@@ -1,5 +1,3 @@
-package KNN;
-
 /**
  * Created by Ilya239 on 18.09.2016.
  */
