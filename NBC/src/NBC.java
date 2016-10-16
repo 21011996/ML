@@ -12,7 +12,7 @@ public class NBC {
     private double spamFrequency = 0;
     private double legitFrequency = 0;
     private double spamCount = 0;
-    private  double legitCount = 0;
+    private double legitCount = 0;
     private HashMap<Integer, Double> spamWordsCount;
     private HashMap<Integer, Double> legitWordsCount;
 
@@ -69,8 +69,8 @@ public class NBC {
             double leg = Math.log(legitFrequency);
             double spam = Math.log(spamFrequency);
             for (Integer word : message.getSubject()) {
-                leg += Math.log(((getLegitWordsCount().containsKey(word) ? getLegitWordsCount().get(word) : 0) + laplaceFactor)/(getSpamCount()+laplaceFactor*getUniqueWordsAmount()));
-                spam += Math.log(((getSpamWordsCount().containsKey(word) ? getSpamWordsCount().get(word) : 0) + laplaceFactor)/(getLegitCount()+laplaceFactor*getUniqueWordsAmount()));
+                leg += Math.log(((getLegitWordsCount().containsKey(word) ? getLegitWordsCount().get(word) : 0) + laplaceFactor) / (getSpamCount() + laplaceFactor * getUniqueWordsAmount()));
+                spam += Math.log(((getSpamWordsCount().containsKey(word) ? getSpamWordsCount().get(word) : 0) + laplaceFactor) / (getLegitCount() + laplaceFactor * getUniqueWordsAmount()));
             }
             if (leg >= spam) {
                 result.add(MessageType.LEGIT);
