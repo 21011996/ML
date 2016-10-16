@@ -8,14 +8,13 @@ import java.util.HashMap;
  * Created by Ilya239 on 16.10.2016.
  */
 public class NBC {
+    static final double laplaceFactor = 0.5;
     private double spamFrequency = 0;
     private double legitFrequency = 0;
     private double spamCount = 0;
     private  double legitCount = 0;
     private HashMap<Integer, Double> spamWordsCount;
     private HashMap<Integer, Double> legitWordsCount;
-    static final double laplaceFactor = 0.5;
-
 
     public NBC train(ArrayList<Message> messages) {
         double spamFrequency = 0;
@@ -23,18 +22,20 @@ public class NBC {
         HashMap<Integer, Double> spamWordsFrequency = new HashMap<>();
         HashMap<Integer, Double> legitWordsFrequency = new HashMap<>();
         for (Message message : messages) {
+            double subjectWeight = message.getSubject().size() != 0 ? message.getBody().size() / message.getSubject().size() : 1;
+            subjectWeight = subjectWeight < 1 ? 1 : subjectWeight;
             if (message.getType() == MessageType.LEGIT) {
-                legitFrequency += message.getSubject().size() + message.getBody().size();
+                legitFrequency += message.getSubject().size() * subjectWeight + message.getBody().size();
                 for (Integer word : message.getSubject()) {
-                    legitWordsFrequency.put(word, legitWordsFrequency.containsKey(word) ? legitWordsFrequency.get(word) + 1 : 1);
+                    legitWordsFrequency.put(word, legitWordsFrequency.containsKey(word) ? legitWordsFrequency.get(word) + subjectWeight : subjectWeight);
                 }
                 for (Integer word : message.getBody()) {
                     legitWordsFrequency.put(word, legitWordsFrequency.containsKey(word) ? legitWordsFrequency.get(word) + 1 : 1);
                 }
             } else {
-                spamFrequency += message.getSubject().size() + message.getBody().size();
+                spamFrequency += message.getSubject().size() * subjectWeight + message.getBody().size();
                 for (Integer word : message.getSubject()) {
-                    spamWordsFrequency.put(word, spamWordsFrequency.containsKey(word) ? spamWordsFrequency.get(word) + 1 : 1);
+                    spamWordsFrequency.put(word, spamWordsFrequency.containsKey(word) ? spamWordsFrequency.get(word) + subjectWeight : subjectWeight);
                 }
                 for (Integer word : message.getBody()) {
                     spamWordsFrequency.put(word, spamWordsFrequency.containsKey(word) ? spamWordsFrequency.get(word) + 1 : 1);
