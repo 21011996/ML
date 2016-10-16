@@ -1,7 +1,5 @@
-package NaiveBayesClassifier;
-
-import NaiveBayesClassifier.message.Message;
-import NaiveBayesClassifier.message.MessageType;
+import message.Message;
+import message.MessageType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

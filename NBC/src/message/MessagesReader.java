@@ -1,4 +1,4 @@
-package NaiveBayesClassifier.message;
+package message;
 
 import java.io.IOException;
 import java.nio.file.Files;

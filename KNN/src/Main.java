@@ -1,5 +1,3 @@
-package KNN;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
