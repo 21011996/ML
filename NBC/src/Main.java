@@ -14,6 +14,8 @@ public class Main {
 
     public void run() {
         double accuracy = 0;
+        double legitAccuracy = 0;
+        double spamAccuracy = 0;
         MessagesReader reader = new MessagesReader();
         for (int i = 1; i <= 10; i++) {
             ArrayList<Message> test = reader.read("Bayes/pu1/part" + i);
@@ -26,15 +28,33 @@ public class Main {
             NBC nbc = new NBC().train(train);
             ArrayList<MessageType> classified = nbc.classify(test);
             int correct = 0;
+            int correctLegit = 0;
+            int correctSpam = 0;
+            int countLegit = 0;
+            int countSpam = 0;
             int count = 0;
             for (int j = 0; j < test.size(); j++) {
                 count++;
-                if (test.get(j).getType().equals(classified.get(j))) {
-                    correct++;
+                if (test.get(j).getType() == MessageType.LEGIT) {
+                    countLegit++;
+                    if (test.get(j).getType().equals(classified.get(j))) {
+                        correct++;
+                        correctLegit++;
+                    }
+                } else {
+                    countSpam++;
+                    if (test.get(j).getType().equals(classified.get(j))) {
+                        correct++;
+                        correctSpam++;
+                    }
                 }
             }
             accuracy += (double) correct / count;
+            legitAccuracy += (double) correctLegit / countLegit;
+            spamAccuracy += (double) correctSpam / countSpam;
         }
         System.out.println("Accuracy: " + accuracy * 10 + "%");
+        System.out.println("Accuracy Legit: " + legitAccuracy * 10 + "%");
+        System.out.println("Accuracy Spam: " + spamAccuracy * 10 + "%");
     }
 }

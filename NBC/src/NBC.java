@@ -3,6 +3,7 @@ import message.MessageType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Ilya239 on 16.10.2016.
@@ -60,6 +61,7 @@ public class NBC {
         answer.setSpamWordsCount(spamWordsFrequency);
         answer.setSpamCount(spamCount);
         answer.setLegitCount(legitCount);
+        //answer.riggData();
         return answer;
     }
 
@@ -79,6 +81,18 @@ public class NBC {
             }
         }
         return result;
+    }
+
+    public void riggData() {
+        for (Map.Entry<Integer, Double> entry : legitWordsCount.entrySet()) {
+            if (spamWordsCount.containsKey(entry.getKey())) {
+                spamCount -= spamWordsCount.get(entry.getKey());
+                spamWordsCount.remove(entry.getKey());
+            }
+        }
+        double tmp = spamCount + legitCount;
+        spamFrequency /= tmp;
+        legitFrequency /= tmp;
     }
 
     public double getSpamFrequency() {
