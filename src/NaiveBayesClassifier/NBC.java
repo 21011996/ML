@@ -5,7 +5,6 @@ import NaiveBayesClassifier.message.MessageType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Ilya239 on 16.10.2016.
@@ -13,8 +12,11 @@ import java.util.Map;
 public class NBC {
     private double spamFrequency = 0;
     private double legitFrequency = 0;
-    private HashMap<Integer, Double> spamWordsFrequency;
-    private HashMap<Integer, Double> legitWordsFrequency;
+    private double spamCount = 0;
+    private  double legitCount = 0;
+    private HashMap<Integer, Double> spamWordsCount;
+    private HashMap<Integer, Double> legitWordsCount;
+    static final double laplaceFactor = 0.5;
 
 
     public NBC train(ArrayList<Message> messages) {
@@ -26,36 +28,58 @@ public class NBC {
             if (message.getType() == MessageType.LEGIT) {
                 legitFrequency += message.getSubject().size() + message.getBody().size();
                 for (Integer word : message.getSubject()) {
-                    legitWordsFrequency.put(word, legitWordsFrequency.get(word) != null ? legitWordsFrequency.get(word) + 1 : 1);
+                    legitWordsFrequency.put(word, legitWordsFrequency.containsKey(word) ? legitWordsFrequency.get(word) + 1 : 1);
                 }
                 for (Integer word : message.getBody()) {
-                    legitWordsFrequency.put(word, legitWordsFrequency.get(word) != null ? legitWordsFrequency.get(word) + 1 : 1);
+                    legitWordsFrequency.put(word, legitWordsFrequency.containsKey(word) ? legitWordsFrequency.get(word) + 1 : 1);
                 }
             } else {
                 spamFrequency += message.getSubject().size() + message.getBody().size();
                 for (Integer word : message.getSubject()) {
-                    spamWordsFrequency.put(word, spamWordsFrequency.get(word) != null ? spamWordsFrequency.get(word) + 1 : 1);
+                    spamWordsFrequency.put(word, spamWordsFrequency.containsKey(word) ? spamWordsFrequency.get(word) + 1 : 1);
                 }
                 for (Integer word : message.getBody()) {
-                    spamWordsFrequency.put(word, spamWordsFrequency.get(word) != null ? spamWordsFrequency.get(word) + 1 : 1);
+                    spamWordsFrequency.put(word, spamWordsFrequency.containsKey(word) ? spamWordsFrequency.get(word) + 1 : 1);
                 }
             }
-        }
+        } /*
         for (Map.Entry<Integer, Double> entry : spamWordsFrequency.entrySet()) {
             spamWordsFrequency.put(entry.getKey(), entry.getValue() / spamFrequency);
         }
         for (Map.Entry<Integer, Double> entry : legitWordsFrequency.entrySet()) {
             legitWordsFrequency.put(entry.getKey(), entry.getValue() / legitFrequency);
-        }
+        } */
         double tmp = spamFrequency + legitFrequency;
+        spamCount = spamFrequency;
+        legitCount = legitFrequency;
         spamFrequency /= tmp;
         legitFrequency /= tmp;
         NBC answer = new NBC();
         answer.setLegitFrequency(legitFrequency);
         answer.setSpamFrequency(spamFrequency);
-        answer.setLegitWordsFrequency(legitWordsFrequency);
-        answer.setSpamWordsFrequency(spamWordsFrequency);
+        answer.setLegitWordsCount(legitWordsFrequency);
+        answer.setSpamWordsCount(spamWordsFrequency);
+        answer.setSpamCount(spamCount);
+        answer.setLegitCount(legitCount);
         return answer;
+    }
+
+    public ArrayList<MessageType> classify(ArrayList<Message> messages) {
+        ArrayList<MessageType> result = new ArrayList<>();
+        for (Message message : messages) {
+            double leg = Math.log(legitFrequency);
+            double spam = Math.log(spamFrequency);
+            for (Integer word : message.getSubject()) {
+                leg += Math.log(((getLegitWordsCount().containsKey(word) ? getLegitWordsCount().get(word) : 0) + laplaceFactor)/(getSpamCount()+laplaceFactor*getUniqueWordsAmount()));
+                spam += Math.log(((getSpamWordsCount().containsKey(word) ? getSpamWordsCount().get(word) : 0) + laplaceFactor)/(getLegitCount()+laplaceFactor*getUniqueWordsAmount()));
+            }
+            if (leg >= spam) {
+                result.add(MessageType.LEGIT);
+            } else {
+                result.add(MessageType.SPAM);
+            }
+        }
+        return result;
     }
 
     public double getSpamFrequency() {
@@ -74,19 +98,39 @@ public class NBC {
         this.legitFrequency = legitFrequency;
     }
 
-    public HashMap<Integer, Double> getSpamWordsFrequency() {
-        return spamWordsFrequency;
+    public HashMap<Integer, Double> getSpamWordsCount() {
+        return spamWordsCount;
     }
 
-    public void setSpamWordsFrequency(HashMap<Integer, Double> spamWordsFrequency) {
-        this.spamWordsFrequency = spamWordsFrequency;
+    public void setSpamWordsCount(HashMap<Integer, Double> spamWordsCount) {
+        this.spamWordsCount = spamWordsCount;
     }
 
-    public HashMap<Integer, Double> getLegitWordsFrequency() {
-        return legitWordsFrequency;
+    public HashMap<Integer, Double> getLegitWordsCount() {
+        return legitWordsCount;
     }
 
-    public void setLegitWordsFrequency(HashMap<Integer, Double> legitWordsFrequency) {
-        this.legitWordsFrequency = legitWordsFrequency;
+    public void setLegitWordsCount(HashMap<Integer, Double> legitWordsCount) {
+        this.legitWordsCount = legitWordsCount;
+    }
+
+    public double getSpamCount() {
+        return spamCount;
+    }
+
+    public void setSpamCount(double spamCount) {
+        this.spamCount = spamCount;
+    }
+
+    public double getLegitCount() {
+        return legitCount;
+    }
+
+    public void setLegitCount(double legitCount) {
+        this.legitCount = legitCount;
+    }
+
+    public double getUniqueWordsAmount() {
+        return getLegitWordsCount().size() + getSpamWordsCount().size();
     }
 }

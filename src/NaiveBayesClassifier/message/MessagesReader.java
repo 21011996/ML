@@ -35,6 +35,7 @@ public class MessagesReader {
             scanner.nextLine();
             String body = scanner.nextLine();
             messages.add(new Message(path.getFileName().toString(), getTypeFromPath(path), subjectParser(subject), bodyParser(body)));
+            scanner.close();
         }
         return messages;
     }
