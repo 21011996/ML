@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Ilya239 on 16.10.2016.
  */
 public class NBC {
-    static final double laplaceFactor = 0.5;
+    private static final double laplaceFactor = 0.5;
     private double spamFrequency = 0;
     private double legitFrequency = 0;
     private double spamCount = 0;
@@ -68,13 +68,14 @@ public class NBC {
     public ArrayList<MessageType> classify(ArrayList<Message> messages) {
         ArrayList<MessageType> result = new ArrayList<>();
         for (Message message : messages) {
-            double leg = Math.log(legitFrequency);
-            double spam = Math.log(spamFrequency);
+            double res = Math.log(legitFrequency / spamFrequency);
             for (Integer word : message.getSubject()) {
-                leg += Math.log(((getLegitWordsCount().containsKey(word) ? getLegitWordsCount().get(word) : 0) + laplaceFactor) / (getSpamCount() + laplaceFactor * getUniqueWordsAmount()));
-                spam += Math.log(((getSpamWordsCount().containsKey(word) ? getSpamWordsCount().get(word) : 0) + laplaceFactor) / (getLegitCount() + laplaceFactor * getUniqueWordsAmount()));
+                double leg = (((getLegitWordsCount().containsKey(word) ? getLegitWordsCount().get(word) : 0) + laplaceFactor) / (getSpamCount() + laplaceFactor * getUniqueWordsAmount()));
+                double spam = (((getSpamWordsCount().containsKey(word) ? getSpamWordsCount().get(word) : 0) + laplaceFactor) / (getLegitCount() + laplaceFactor * getUniqueWordsAmount()));
+                res += Math.log(leg / spam);
+
             }
-            if (leg >= spam) {
+            if (res >= -4) {
                 result.add(MessageType.LEGIT);
             } else {
                 result.add(MessageType.SPAM);
