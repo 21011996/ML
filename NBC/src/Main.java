@@ -63,6 +63,6 @@ public class Main {
         System.out.println("Accuracy: " + accuracy * 10 + "%");
         System.out.println("Accuracy Legit: " + legitAccuracy * 10 + "%");
         System.out.println("Accuracy Spam: " + spamAccuracy * 10 + "%");
-        System.out.println(f1Metric.getF1Metric());
+        System.out.println("F1 metric: " + f1Metric.getF1Metric());
     }
 }
