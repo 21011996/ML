@@ -64,7 +64,7 @@ public class NBC {
         //answer.riggData();
         return answer;
     }
-
+    //TODO Legit messages -> 100, accuracy drop a little
     public ArrayList<MessageType> classify(ArrayList<Message> messages) {
         ArrayList<MessageType> result = new ArrayList<>();
         for (Message message : messages) {
