@@ -19,7 +19,7 @@ public class Genetic {
         for (int i = 0; i < 10; i++) {
             stado.add(getRandomVector());
         }
-        double koff = 1;
+        double koff = 10;
         for (int i = 0; i < 1000; i++) {
 
             for (int j = 0; j < 10; j++) {
@@ -60,7 +60,7 @@ public class Genetic {
         }
 
         public Vector3 mutate(double k) {
-            return new Vector3(b0 + random.nextDouble() * k - k / 2, b1 + random.nextDouble() * k - k / 2, b2 + random.nextDouble() * k - k / 2);
+            return new Vector3(b0 + random.nextDouble() * k - k / 2, b1 + random.nextDouble() * k - k / 2, b2 + random.nextDouble() * 1000 * k - 1000 * k / 2);
         }
 
         @Override

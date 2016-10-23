@@ -41,13 +41,9 @@ public class LRMain {
         }
         ArrayList<Flat> line2 = new ArrayList<>();
         for (double a = 0; a < 5; a += 0.01) {
-            line2.add(new Flat(a, a, vec[2] * a + vec[0] * 800000));
+            line2.add(new Flat(a, a, vec[2] * a + vec[0] * 3300000));
         }
         ArrayList<Flat> oneroom = new ArrayList<>();
-        ArrayList<Flat> tworoom = new ArrayList<>();
-        ArrayList<Flat> threeroom = new ArrayList<>();
-        ArrayList<Flat> fourroom = new ArrayList<>();
-        ArrayList<Flat> fiveroom = new ArrayList<>();
         for (Flat flat : flats) {
             switch ((int) flat.roomsCount) {
                 default:oneroom.add(flat);
