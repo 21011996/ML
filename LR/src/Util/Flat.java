@@ -13,4 +13,10 @@ public class Flat {
         this.area = area/5000;
         this.roomsCount = roomsCount/5;
     }
+
+    public Flat(double area, double roomsCount, double price, boolean flag) {
+        this.price = price;
+        this.area = area;
+        this.roomsCount = roomsCount;
+    }
 }

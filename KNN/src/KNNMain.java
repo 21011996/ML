@@ -4,13 +4,13 @@ import java.util.Collections;
 /**
  * Created by Ilya239 on 17.09.2016.
  */
-public class Main {
+public class KNNMain {
     //75.33,78.6
     private static int foldNumber = 10; // 10,10
     private static int KNN_k = 5; // 5
 
     public static void main(String[] args) {
-        new Main().run(foldNumber, KNN_k);
+        new KNNMain().run(foldNumber, KNN_k);
     }
 
     double run(int foldNumber, int KNN_k) {

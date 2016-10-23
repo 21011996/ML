@@ -27,8 +27,21 @@ public class Plot {
             List<Double> xData = new LinkedList<>();
             List<Double> yData = new LinkedList<>();
             for (Flat point : points) {
-                xData.add((double) point.area);
-                yData.add((double) point.price);
+                xData.add(point.area);
+                yData.add(point.price);
+            }
+            chart.addSeries(graphicName, xData, yData).setLineColor(new Color(255, 255, 255, 0)).setMarker(SeriesMarker.CIRCLE);
+        }
+        return this;
+    }
+
+    public Plot addGraphic(List<Flat> points, String graphicName, boolean flag) {
+        if (!points.isEmpty()) {
+            List<Double> xData = new LinkedList<>();
+            List<Double> yData = new LinkedList<>();
+            for (Flat point : points) {
+                xData.add(point.roomsCount);
+                yData.add(point.price);
             }
             chart.addSeries(graphicName, xData, yData).setLineColor(new Color(255, 255, 255, 0)).setMarker(SeriesMarker.CIRCLE);
         }
