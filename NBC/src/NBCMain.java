@@ -17,6 +17,7 @@ public class NBCMain {
         double legitAccuracy = 0;
         double spamAccuracy = 0;
         MessagesReader reader = new MessagesReader();
+        F1Metric f1Metric = new F1Metric();
         for (int i = 1; i <= 10; i++) {
             ArrayList<Message> test = reader.read("Bayes/pu1/part" + i);
             ArrayList<Message> train = new ArrayList<>();
@@ -38,14 +39,20 @@ public class NBCMain {
                 if (test.get(j).getType() == MessageType.LEGIT) {
                     countLegit++;
                     if (test.get(j).getType().equals(classified.get(j))) {
+                        f1Metric.incTP();
                         correct++;
                         correctLegit++;
+                    } else {
+                        f1Metric.incFN();
                     }
                 } else {
                     countSpam++;
                     if (test.get(j).getType().equals(classified.get(j))) {
+                        f1Metric.incTN();
                         correct++;
                         correctSpam++;
+                    } else {
+                        f1Metric.incFP();
                     }
                 }
             }
@@ -56,5 +63,6 @@ public class NBCMain {
         System.out.println("Accuracy: " + accuracy * 10 + "%");
         System.out.println("Accuracy Legit: " + legitAccuracy * 10 + "%");
         System.out.println("Accuracy Spam: " + spamAccuracy * 10 + "%");
+        System.out.println("F1 metric: " + f1Metric.getF1Metric());
     }
 }
