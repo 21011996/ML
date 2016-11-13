@@ -20,7 +20,8 @@ public class Core {
 
     public Core(ArrayList<Dot> dots, double h) {
         this.h = h;
-        this.dots = dots;
+        this.dots = new ArrayList<>();
+        this.dots.addAll(dots);
     }
 
     private void optimizeH() {

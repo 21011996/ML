@@ -11,12 +11,15 @@ public class Main {
     public void run() {
         ArrayList<Dot> dots = new Reader().read("non-parametric.csv");
         ArrayList<Dot> line = new ArrayList<>();
+        ArrayList<Dot> line2 = new ArrayList<>();
         Core core = new Core(dots, 1.1191); //1.1191
+        KNN knn = new KNN();
         for (double i = 0; i < 60; i += 0.01) {
             line.add(core.produceA(i));
+            line2.add(knn.getA(i, dots, 50));
         }
         System.out.println("MSE = " + MSE(dots, core));
-        new Plot("x", "y").addGraphic(dots, "line").addGraphic(line, "line2").show();
+        new Plot("x", "y").addGraphic(dots, "dots").addGraphic(line, "Core").addGraphic(line2, "KNN").show();
     }
 
     private double MSE(ArrayList<Dot> dots, Core core1) {
