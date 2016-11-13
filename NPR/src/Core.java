@@ -4,43 +4,46 @@ import java.util.ArrayList;
  * Created by Ilya239 on 13.11.2016.
  */
 public class Core {
-    private double h;
+    public double h = 0.0;
     private ArrayList<Dot> dots;
-    private int k;
+    //private int k;
 
-    public Core(ArrayList<Dot> dots, boolean optimize, int k) {
+    public Core(ArrayList<Dot> dots) {
         this.dots = dots;
-        this.k = k;
         /*if (optimize) {
             optimizeH();
         } else {
             this.h = h;
         }*/
+        optimizeH();
     }
 
-    /*private void optimizeH() {
+    public Core(ArrayList<Dot> dots, double h) {
+        this.h = h;
+        this.dots = dots;
+    }
+
+    private void optimizeH() {
         double minH = 0;
         double minLOO = 100000000.0;
-        for (double i = 0.01; i<60; i+=0.01) {
+        for (double i = 0.1; i < 60; i += 0.1) {
+            double LOO = 0;
             for (Dot dot : dots) {
                 ArrayList<Dot> dotsMutated = new ArrayList<>();
                 dotsMutated.addAll(dots);
                 dotsMutated.remove(dot);
-                Core core = new Core(dotsMutated, false, i);
+                Core core = new Core(dotsMutated, i);
                 Dot a = core.produceA(dot.x);
-                double LOO = 0;
-                for (Dot dot2 : dots) {
-                    LOO += (a.y-dot2.y)*(a.y-dot2.y);
-                }
-                if (LOO < minLOO) {
-                    minLOO = LOO;
-                    minH = i;
-                }
+                LOO += (a.y - dot.y) * (a.y - dot.y);
+            }
+            if (LOO < minLOO) {
+                minLOO = LOO;
+                minH = i;
             }
         }
         this.h = minH;
         System.out.println(this.h);
-    }*/
+    }
 
     /*private double estimateH(double x) {
         ArrayList<Dot> dotsMutated = new ArrayList<>();
@@ -66,7 +69,6 @@ public class Core {
     }*/
 
     public Dot produceA(double x) {
-        this.h = 2;
         for (Dot dot : dots) {
             dot.id = coreFunction(x, dot.x);
         }
@@ -87,7 +89,7 @@ public class Core {
                 integral += distance(x, dot.x) / h;
             }
         }
-        //return (15.0/16.0)*(1-r*r)*(1-r*r)*integral; // reccommended k = 37
+        //return (15.0/16.0)*(1.0-r*r)*(1.0-r*r)*integral; // reccommended k = 37
         return Math.exp(-1.0 / 2.0 * r * r); // reccomended k = 2
     }
 
