@@ -5,7 +5,7 @@ public class F1Metric {
     private int truePositive;
     private int falsePositive;
     private int trueNegative;
-    private int falseNegative;
+    public int falseNegative;
     private double precision;
     private double recall;
     private double f1Metric;

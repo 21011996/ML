@@ -60,7 +60,9 @@ public class Genetic {
         }
 
         public Vector3 mutate(double k) {
-            return new Vector3(b0 + random.nextDouble() * k - k / 2, b1 + random.nextDouble() * k - k / 2, b2 + random.nextDouble() * 1000 * k - 1000 * k / 2);
+            return new Vector3(b0 + random.nextDouble() * k - k / 2
+                    , b1 + random.nextDouble() * k - k / 2
+                    , b2 + random.nextDouble() * 1000 * k - 1000 * k / 2);
         }
 
         @Override

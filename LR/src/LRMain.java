@@ -41,7 +41,7 @@ public class LRMain {
         }
         ArrayList<Flat> line2 = new ArrayList<>();
         for (double a = 0; a < 5; a += 0.01) {
-            line2.add(new Flat(a, a, vec[2] * a + vec[0] * 3300000));
+            line2.add(new Flat(a, a, vec[2] * a + vec[0] * 3200000));
         }
         ArrayList<Flat> oneroom = new ArrayList<>();
         for (Flat flat : flats) {

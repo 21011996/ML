@@ -16,9 +16,9 @@ public class Main {
         KNN knn = new KNN();
         for (double i = 0; i < 60; i += 0.01) {
             line.add(core.produceA(i));
-            line2.add(knn.getA(i, dots, 50));
+            line2.add(knn.getA(i, dots, 40));
         }
-        System.out.println("MSE = " + MSE(dots, core));
+        System.out.println("MSE_CORE = " + MSE(dots, core));
         System.out.println("MSE_KNN = " + MSE(dots, knn));
         new Plot("x", "y").addGraphic(dots, "dots").addGraphic(line, "Core").addGraphic(line2, "KNN").show();
     }
