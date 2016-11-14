@@ -13,7 +13,7 @@ public class KNN {
         }
         mutateDots.sort((o1, o2) -> Double.compare(o1.x, o2.x));
         List<Dot> a = mutateDots.subList(0, k);
-        Core tmp = new Core(new ArrayList<Dot>(a), a.get(a.size() - 1).x);
-        return tmp.produceA(x);
+        Core tmp = new Core(new ArrayList<Dot>(a), 0.6);
+        return new Dot(0, x, tmp.produceA(0.0).y);
     }
 }

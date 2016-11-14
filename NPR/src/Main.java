@@ -19,6 +19,7 @@ public class Main {
             line2.add(knn.getA(i, dots, 50));
         }
         System.out.println("MSE = " + MSE(dots, core));
+        System.out.println("MSE_KNN = " + MSE(dots, knn));
         new Plot("x", "y").addGraphic(dots, "dots").addGraphic(line, "Core").addGraphic(line2, "KNN").show();
     }
 
@@ -31,6 +32,22 @@ public class Main {
             dotsMutated.remove(dot);
             Core core = new Core(dotsMutated, core1.h);
             Dot a = core.produceA(dot.x);
+            double LOO = (dot.y - a.y) * (dot.y - a.y);
+            n++;
+            MSE += LOO;
+        }
+        return MSE / n;
+    }
+
+    private double MSE(ArrayList<Dot> dots, KNN knn1) {
+        double MSE = 0;
+        double n = 0;
+        for (Dot dot : dots) {
+            ArrayList<Dot> dotsMutated = new ArrayList<>();
+            dotsMutated.addAll(dots);
+            dotsMutated.remove(dot);
+            KNN knn = new KNN();
+            Dot a = knn.getA(dot.x, dotsMutated, 50);
             double LOO = (dot.y - a.y) * (dot.y - a.y);
             n++;
             MSE += LOO;
