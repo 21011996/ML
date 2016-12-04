@@ -12,8 +12,23 @@ public class Dot {
         this.y = y;
     }
 
+    public Dot(Dot dot) {
+        this.id = dot.id;
+        this.x = dot.x;
+        this.y = dot.y;
+    }
+
     @Override
     public String toString() {
         return "(" + x + ";" + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object v) {
+        if (v instanceof Dot) {
+            Dot dot = (Dot) v;
+            return dot.x == this.x;
+        }
+        return false;
     }
 }
