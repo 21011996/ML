@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.function.Predicate;
 
 /**
  * Created by Ilya239 on 20.11.2016.
@@ -54,20 +53,16 @@ public class Spline {
             }
         }
         for (Dot dot2 : delete) {
-            dots.removeIf(new Predicate<Dot>() {
-                @Override
-                public boolean test(Dot dot) {
-                    return dot2.x == dot.x;
-                }
-            });
+            dots.removeIf(dot -> dot2.x == dot.x);
             dots.add(dot2);
         }
-        dots.sort(new Comparator<Dot>() {
-            @Override
-            public int compare(Dot o1, Dot o2) {
-                return Double.compare(o1.x, o2.x);
-            }
-        });
+        dots.sort(Comparator.comparingDouble(o -> o.x));
+        for (int i = 2; i < dots.size(); i++) {
+            Dot curr = dots.get(i);
+            double alpha = 0.35;
+            curr.y = alpha * curr.y + (1 - alpha) * dots.get(i - 1).y;
+            //curr.x -=alpha/2;
+        }
     }
 
     public boolean isin(double x) {
