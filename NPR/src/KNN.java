@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -11,9 +12,26 @@ public class KNN {
         for (Dot dot : dots) {
             mutateDots.add(new Dot(0, Math.abs(x - dot.x), dot.y));
         }
-        mutateDots.sort((o1, o2) -> Double.compare(o1.x, o2.x));
+        mutateDots.sort(Comparator.comparingDouble(o -> o.x));
         List<Dot> a = mutateDots.subList(0, k);
-        Core tmp = new Core(new ArrayList<Dot>(a), 0.6);
-        return new Dot(0, x, tmp.produceA(0.0).y);
+        double curH = 0.6;
+        double yw = 0.0;
+        double w = 0.0;
+        for (Dot dot : a) {
+            double wi = fun(dot.x / (curH));
+            yw += dot.y * wi;
+            w += wi;
+        }
+        return new Dot(0, x, yw / w);
+    }
+
+    private double fun(double in) {
+        return Math.pow(2.0 * Math.PI, -0.5) * Math.exp(-in * in / 2);
+        /*if (in <= 1) {
+            return 1.0 / (2.0 * in);
+        } else {
+            return 0;
+        }*/
+        //return Math.exp(-1.0 / 2.0 * in * in);
     }
 }

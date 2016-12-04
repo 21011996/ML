@@ -20,15 +20,16 @@ public class Main {
         ArrayList<Dot> line = new ArrayList<>();
         ArrayList<Dot> line2 = new ArrayList<>();
         Core core = new Core(dots, 1.1191); //1.1191
-        //KNN knn = new KNN();
+        KNN knn = new KNN();
         Spline spline = new Spline(dots);
         for (double i = 0; i < 60; i += 0.01) {
             line.add(core.produceA(i));
-            //line2.add(spline.getA(i));
+            line2.add(knn.getA(i, dots, 18));
         }
         System.out.println("MSE_Core = " + MSE(dots, core));
+        System.out.println("MSE_KNN = " + MSE(dots, knn));
         System.out.println("MSE_Spline = " + MSE(dots, spline.line));
-        new Plot("x", "y").addGraphic(dots, "dots").addGraphic(line, "Core").addGraphic(spline.line, "Spline").show();
+        new Plot("x", "y").addGraphic(dots, "dots").addGraphic(line, "Core").addLine(line2, "KNN").addGraphic(spline.line, "Spline").show();
     }
 
     private double MSE(ArrayList<Dot> dots, ArrayList<Dot> line) {

@@ -31,6 +31,19 @@ class Plot {
         return this;
     }
 
+    Plot addLine(List<Dot> points, String graphicName) {
+        if (!points.isEmpty()) {
+            List<Double> xData = new LinkedList<>();
+            List<Double> yData = new LinkedList<>();
+            for (Dot point : points) {
+                xData.add(point.x);
+                yData.add(point.y);
+            }
+            chart.addSeries(graphicName, xData, yData).setMarker(SeriesMarker.NONE).setLineStyle(SeriesLineStyle.DASH_DASH);
+        }
+        return this;
+    }
+
     void show() {
         new SwingWrapper(chart).displayChart();
     }
