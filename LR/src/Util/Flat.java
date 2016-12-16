@@ -9,9 +9,9 @@ public class Flat {
     public double roomsCount;
 
     public Flat(double area, double roomsCount, double price) {
-        this.price = price/800000;
-        this.area = area/5000;
-        this.roomsCount = roomsCount/5;
+        this.price = price;
+        this.area = area;
+        this.roomsCount = roomsCount;
     }
 
     public Flat(double area, double roomsCount, double price, boolean flag) {
