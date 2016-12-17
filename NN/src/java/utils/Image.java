@@ -1,5 +1,7 @@
 package utils;
 
+import java.awt.image.BufferedImage;
+
 /**
  * @author Ilya239.
  *         Created on 17.12.2016.
@@ -20,6 +22,21 @@ public class Image {
         this.height = other.height;
         pixels = new double[other.size()];
         System.arraycopy(other.pixels, 0, pixels, 0, size());
+    }
+
+    public Image(BufferedImage image) {
+        this.width = image.getWidth();
+        this.height = image.getHeight();
+        pixels = new double[width * height];
+        for (int k = 0; k < height; k++) {
+            for (int i = 0; i < width; i++) {
+                if (image.getRGB(i, k) < -1) {
+                    pixels[i + width * k] = 0;
+                } else {
+                    pixels[i + width * k] = 1;
+                }
+            }
+        }
     }
 
     public void set(int i, double v) {
