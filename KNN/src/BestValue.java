@@ -11,7 +11,7 @@ public class BestValue {
             for (int j = 1; j < 118; j++) {
                 double tmp = 0;
                 for (int o = 0; o < 10; o++) {
-                    tmp += new KNNMain().run(i, j);
+                    tmp += new KNNMain().run(i);
                 }
                 accuracy[i][j] = tmp * 10;
                 if (accuracy[i][j] > best_accuracy) {

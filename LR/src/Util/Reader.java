@@ -17,11 +17,14 @@ public class Reader {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] spl = line.split(",");
-                dots.add(new Flat(Integer.parseInt(spl[0]), Integer.parseInt(spl[1]), Integer.parseInt(spl[2])));
+                if (Character.isDigit(spl[0].charAt(0))) {
+                    dots.add(new Flat(Integer.parseInt(spl[0]), Integer.parseInt(spl[1]), Integer.parseInt(spl[2])));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Reading finished!");
         return dots;
     }
 

@@ -20,7 +20,11 @@ public class Reader {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] spl = line.split(",");
-                dots.add(new Dot(Double.parseDouble(spl[0]), Double.parseDouble(spl[1]), Integer.parseInt(spl[2])));
+                int type = Integer.parseInt(spl[2]);
+                if (type == 0) {
+                    type = -1;
+                }
+                dots.add(new Dot(Double.parseDouble(spl[0]), Double.parseDouble(spl[1]), type));
             }
         } catch (IOException e) {
             e.printStackTrace();
