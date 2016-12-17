@@ -33,4 +33,11 @@ public class Image {
     public int size() {
         return pixels.length;
     }
+
+    public void addHead(int v) {
+        double[] newX = new double[size() + 1];
+        newX[0] = v;
+        System.arraycopy(pixels, 0, newX, 1, pixels.length);
+        pixels = newX;
+    }
 }
