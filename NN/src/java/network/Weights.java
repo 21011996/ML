@@ -1,6 +1,8 @@
 package network;
 
+import java.io.*;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * @author Ilya239.
@@ -23,5 +25,49 @@ public class Weights {
                 weights[i][j] = min + (max - min) * random.nextGaussian();
             }
         }
+    }
+
+    public Weights(int inputSize, int outputSize, File file) {
+        Scanner scanner = null;
+        DataInputStream is = null;
+        this.inSize = inputSize;
+        this.outSize = outputSize;
+        weights = new double[inputSize][outputSize];
+        try {
+            //is = new DataInputStream(new FileInputStream(file));
+            scanner = new Scanner(new FileInputStream(file));
+            for (int i = 0; i < inputSize; i++) {
+                for (int j = 0; j < outputSize; j++) {
+                    weights[i][j] = Double.parseDouble(scanner.next());
+                }
+            }
+            scanner.close();
+        } catch (IOException e) {
+        }
+    }
+
+    public void writeFile(String fileName) {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(fileName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        writer.print(this.toString());
+        writer.close();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder answer = new StringBuilder();
+        String result = "";
+        for (int i = 0; i < inSize; i++) {
+            for (int j = 0; j < outSize; j++) {
+                answer.append(String.format("%.50f", weights[i][j]).replace(",", "."));
+                if (j != outSize - 1) answer.append(" ");
+            }
+            answer.append("\n");
+        }
+        return answer.toString();
     }
 }
