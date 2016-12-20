@@ -84,7 +84,25 @@ public class Utils {
                 answer.setRGB(i, k, color.getRGB());
             }
         }
+        java.awt.Image image1 = answer.getScaledInstance(500, 500, java.awt.Image.SCALE_AREA_AVERAGING);
         File file = new File(fileName);
-        ImageIO.write(answer, "png", file);
+        ImageIO.write(toBufferedImage(image1), "png", file);
+    }
+
+    public static BufferedImage toBufferedImage(java.awt.Image img) {
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
+        }
+
+        // Create a buffered image with transparency
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        // Draw the image on to the buffered image
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+
+        // Return the buffered image
+        return bimage;
     }
 }
