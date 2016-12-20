@@ -49,6 +49,35 @@ public class NNMain {
             }
             ArrayList<Image> imagesTest = Utils.readImages("NN/src/resources/t10k-images.idx3-ubyte");
             ArrayList<Label> labelsTest = Utils.readLabels("NN/src/resources/t10k-labels.idx1-ubyte");
+            double min = Double.MAX_VALUE;
+            double max = Double.MIN_VALUE;
+            for (int i = 0; i < 28 * 28; i++) {
+                for (int j = 0; j < 10; j++) {
+                    double curr = network.weights.weights[i][j];
+                    min = Math.min(curr, min);
+                    max = Math.max(curr, max);
+                }
+            }
+            double min2 = Double.MAX_VALUE;
+            double max2 = Double.MIN_VALUE;
+            for (int i = 0; i < 10; i++) {
+                Image image = new Image(28, 28);
+                for (int j = 0; j < 28 * 28; j++) {
+
+                    image.pixels[j] = (network.weights.weights[j][i] - min) / (max - min) * (359);
+                    min2 = Math.min(image.pixels[j], min2);
+                    max2 = Math.max(image.pixels[j], max2);
+                }
+                Utils.printImage2("./iseeyou/iseeyou" + i + ".png", image);
+            }
+            Image image = new Image(28, 28);
+            for (int j = 0; j < 28 * 28; j++) {
+
+                image.pixels[j] = ((double) j / (28 * 28)) * (359);
+            }
+            Utils.printImage2("./iseeyou/iseeyoutest.png", image);
+            System.out.println(min + " " + max);
+            System.out.println(min2 + " " + max2);
             int lul = 0;
             cleanFailed();
             for (int i = 0; i < imagesTest.size(); i++) {

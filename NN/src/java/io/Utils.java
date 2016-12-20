@@ -4,6 +4,7 @@ import utils.Image;
 import utils.Label;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
@@ -67,6 +68,20 @@ public class Utils {
         for (int k = 0; k < image.height; k++) {
             for (int i = 0; i < image.width; i++) {
                 answer.setRGB(i, k, (byte) (image.pixels[i + image.width * k] * 255));
+            }
+        }
+        File file = new File(fileName);
+        ImageIO.write(answer, "png", file);
+    }
+
+    public static void printImage2(String fileName, Image image) throws IOException {
+        BufferedImage answer = new BufferedImage(image.width, image.height, BufferedImage.TYPE_3BYTE_BGR);
+        for (int k = 0; k < image.height; k++) {
+            for (int i = 0; i < image.width; i++) {
+                float colornumber = (int) image.pixels[i + image.width * k] + 100;
+                float[] hsv = new float[3];
+                Color color = Color.getHSBColor(colornumber / 459, 1, 1);
+                answer.setRGB(i, k, color.getRGB());
             }
         }
         File file = new File(fileName);
