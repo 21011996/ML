@@ -51,7 +51,7 @@ public class Image {
         return pixels.length;
     }
 
-    public void addHead(int v) {
+    public void addHead(double v) {
         double[] newX = new double[size() + 1];
         newX[0] = v;
         System.arraycopy(pixels, 0, newX, 1, pixels.length);

@@ -26,20 +26,26 @@ public class NNMain {
                 ArrayList<Image> images = Utils.readImages("NN/src/resources/train-images.idx3-ubyte");
                 ArrayList<Label> labels = Utils.readLabels("NN/src/resources/train-labels.idx1-ubyte");
 
-                network = new Network(28 * 28, 10);
+                network = new Network(28 * 28, 60, 10);
                 //network.weights = new Weights(28 * 28, 10, new File("weights.txt"));
                 network.initWeights();
                 //learnOnImage(network, "./nntest/"+2+".png", 2);
-                for (int i = 0; i < images.size(); i++) {
+                /*for (int i = 0; i < images.size(); i++) {
                     network.learnStep(images.get(i), labels.get(i), RATE, RED);
-                }
-                network.learn(images, labels, RATE, 1d / images.size(), RED);
+                }*/
+                ArrayList<Image> imagesTest = Utils.readImages("NN/src/resources/t10k-images.idx3-ubyte");
+                ArrayList<Label> labelsTest = Utils.readLabels("NN/src/resources/t10k-labels.idx1-ubyte");
+                network.learn(images, labels, RATE, 1d / images.size(), RED, imagesTest, labelsTest);
+                network.weights[0].writeFile("weights.txt");
+                network.weights[1].writeFile("weights2.txt");
             } else {
                 //ArrayList<Image> images = Utils.readImages("NN/src/resources/train-images.idx3-ubyte");
                 //ArrayList<Label> labels = Utils.readLabels("NN/src/resources/train-labels.idx1-ubyte");
 
-                network = new Network(28 * 28, 10);
-                network.weights = new Weights(28 * 28, 10, new File("weights.txt"));
+                network = new Network(28 * 28, 60, 10);
+                network.weights = new Weights[2];
+                network.weights[0] = new Weights(28 * 28 + 1, 60 + 1, new File("weights.txt"));
+                network.weights[1] = new Weights(60 + 1, 10 + 1, new File("weights2.txt"));
                 //network.initWeights();
                 //learnOnImage(network, "./nntest/"+2+".png", 2);
                 /*for (int i = 0; i < images.size(); i++) {
@@ -49,7 +55,7 @@ public class NNMain {
             }
             ArrayList<Image> imagesTest = Utils.readImages("NN/src/resources/t10k-images.idx3-ubyte");
             ArrayList<Label> labelsTest = Utils.readLabels("NN/src/resources/t10k-labels.idx1-ubyte");
-            double min = Double.MAX_VALUE;
+            /*double min = Double.MAX_VALUE;
             double max = Double.MIN_VALUE;
             for (int i = 0; i < 28 * 28; i++) {
                 for (int j = 0; j < 10; j++) {
@@ -77,7 +83,7 @@ public class NNMain {
             }
             Utils.printImage2("./iseeyou/iseeyoutest.png", image);
             System.out.println(min + " " + max);
-            System.out.println(min2 + " " + max2);
+            System.out.println(min2 + " " + max2);*/
             int lul = 0;
             cleanFailed();
             for (int i = 0; i < imagesTest.size(); i++) {
@@ -91,8 +97,6 @@ public class NNMain {
             System.out.println(imagesTest.size());
             System.out.println(100 - ((double) lul) / imagesTest.size() * 100);
 
-
-            network.weights.writeFile("weights.txt");
             System.out.println("Personal Test:");
             for (int i = 0; i < 10; i++) {
                 learnOnImage(network, "./nntest/" + i + ".png", i);

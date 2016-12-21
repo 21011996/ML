@@ -46,6 +46,14 @@ public class Weights {
         }
     }
 
+    public double get(int i, int j) {
+        return weights[i][j];
+    }
+
+    public void set(int i, int j, double v) {
+        weights[i][j] = v;
+    }
+
     public void writeFile(String fileName) {
         PrintWriter writer = null;
         try {
