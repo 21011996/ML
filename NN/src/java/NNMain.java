@@ -53,26 +53,28 @@ public class NNMain {
                 }
                 network.learn(images, labels, RATE, 1d / images.size(), RED);*/
             }
-            ArrayList<Image> imagesTest = Utils.readImages("NN/src/resources/t10k-images.idx3-ubyte");
-            ArrayList<Label> labelsTest = Utils.readLabels("NN/src/resources/t10k-labels.idx1-ubyte");
-            /*double min = Double.MAX_VALUE;
+            //ArrayList<Image> imagesTest = Utils.readImages("NN/src/resources/t10k-images.idx3-ubyte");
+            //ArrayList<Label> labelsTest = Utils.readLabels("NN/src/resources/t10k-labels.idx1-ubyte");
+            double min = Double.MAX_VALUE;
             double max = Double.MIN_VALUE;
-            for (int i = 0; i < 28 * 28; i++) {
-                for (int j = 0; j < 10; j++) {
-                    double curr = network.weights.weights[i][j];
-                    min = Math.min(curr, min);
-                    max = Math.max(curr, max);
+            double[][] ui = new double[10][28 * 28];
+            for (int i = 1; i < 11; i++) {
+                for (int j = 1; j < 61; j++) {
+                    for (int k = 1; k < 28 * 28 + 1; k++) {
+                        ui[i - 1][k - 1] += network.weights[0].get(k, j) * network.weights[1].get(j, i);
+                    }
                 }
             }
-            double min2 = Double.MAX_VALUE;
-            double max2 = Double.MIN_VALUE;
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 28 * 28; j++) {
+                    min = Math.min(ui[i][j], min);
+                    max = Math.max(ui[i][j], max);
+                }
+            }
             for (int i = 0; i < 10; i++) {
                 Image image = new Image(28, 28);
                 for (int j = 0; j < 28 * 28; j++) {
-
-                    image.pixels[j] = (network.weights.weights[j][i] - min) / (max - min) * (359);
-                    min2 = Math.min(image.pixels[j], min2);
-                    max2 = Math.max(image.pixels[j], max2);
+                    image.pixels[j] = (ui[i][j] - min) / (max - min) * (359);
                 }
                 Utils.printImage2("./iseeyou/iseeyou" + i + ".png", image);
             }
@@ -83,8 +85,8 @@ public class NNMain {
             }
             Utils.printImage2("./iseeyou/iseeyoutest.png", image);
             System.out.println(min + " " + max);
-            System.out.println(min2 + " " + max2);*/
-            int lul = 0;
+
+            /*int lul = 0;
             cleanFailed();
             for (int i = 0; i < imagesTest.size(); i++) {
                 Label result = network.classify(imagesTest.get(i));
@@ -96,7 +98,7 @@ public class NNMain {
             System.out.println(lul);
             System.out.println(imagesTest.size());
             System.out.println(100 - ((double) lul) / imagesTest.size() * 100);
-
+            */
             System.out.println("Personal Test:");
             for (int i = 0; i < 10; i++) {
                 learnOnImage(network, "./nntest/" + i + ".png", i);
